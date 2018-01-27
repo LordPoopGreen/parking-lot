@@ -176,27 +176,27 @@ void allOperationsForSection(int infraPin, int gatePin, int motorU, int motorD, 
     }
     littleBitMorClose++;  //Add one to littleBitMorClose    
   }
-   else if(isObjectInTheSensor(infraPin)){  // enters if thare is object in the sensor and the gate is not open
-    if (!gateIsOpenOrClose) {  // if the gate is open do not open it more
-      if(SectionNumber == 'O' && enterCar >= maxCars){ //if maxCar in the parking lot dont let more cars in
-        
+   else if(isObjectInTheSensor(infraPin)){  // Check if there is a car in one of the gates
+    if (!gateIsOpenOrClose) {  // Check if the gate is already open
+      if(SectionNumber == 'O' && enterCar >= maxCars){ // Check if the car is trying to enter the parking lot and there is no more space
+       // Do nothing (Don't let the car enter) 
       }
       else{
-        toEnter1 = true; 
+        toEnter1 = true;  // Begin the opening sequence
       }
     }
     else{
-      Serial.println("gate is open alredy");
+      Serial.println("Gate is open already");
      }
     }
   else{
-      if(gateIsOpenOrClose) {  //  close the gate
-        gateIsOpenOrClose = false;
-        digitalWrite(motorD, HIGH); //start motor down
-        closeNow = true;
+      if(gateIsOpenOrClose) { // Check if the gate is open
+        gateIsOpenOrClose = false; // Set the gate to not open or closed
+        digitalWrite(motorD, HIGH); // Begin closing the gate
+        closeNow = true; // Begin the closing sequence
       }
-      else{ //  if the gate close do not close it more
-        Serial.println("gate is close alredy so stop traying boy");
+      else{ //  If the gate is closed 
+        Serial.println("The gate is closed already so stop trying boy.");
       }
     } 
 }
@@ -205,11 +205,11 @@ void allOperationsForSection(int infraPin, int gatePin, int motorU, int motorD, 
 
 
 
+// Setting the number cases for the seven segment display
 
-
-void sevenSegmentNumber(int number){  //Turn the seven segment LED so that it will creat the number from variable number, if number=-1 turn off seven segments
+void sevenSegmentNumber(int number){ 
   switch(number){
-    case -1:  //  turn off the seven segment
+    case -1:  // If the seven segment is set to -1 turn of all LEDs
     digitalWrite(upMLed, LOW);
     digitalWrite(upLLed, LOW);
     digitalWrite(midleMLed, LOW);
@@ -219,7 +219,7 @@ void sevenSegmentNumber(int number){  //Turn the seven segment LED so that it wi
     digitalWrite(upRLed, LOW);
     break;
     
-    case 0:
+    case 0: 
     sevenSegmentNumber(-1);
     digitalWrite(upMLed, HIGH);
     digitalWrite(upLLed, HIGH);
